@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { X, CheckCircle2, ArrowRight, RotateCcw } from 'lucide-react';
 
 interface LessonViewerProps {
@@ -1239,6 +1239,16 @@ export function LessonViewer({ lesson, onComplete, onClose }: LessonViewerProps)
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [quizResults, setQuizResults] = useState<boolean[]>([]);
   const [showExplanation, setShowExplanation] = useState(false);
+
+  // lesson이 바뀔 때 모든 state 초기화 (1단계 → 2단계 등 전환 시)
+  useEffect(() => {
+    setCurrentSection(0);
+    setShowQuiz(false);
+    setCurrentQuiz(0);
+    setSelectedAnswer(null);
+    setQuizResults([]);
+    setShowExplanation(false);
+  }, [lesson.id]);
 
   const content = lessonContent[lesson.id] || lessonContent['stable-1'];
   const sections = content.sections;

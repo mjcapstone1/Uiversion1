@@ -313,57 +313,6 @@ export function LandingPage({ onStart }: LandingPageProps) {
           </div>
         </div>
       </section>
-
-      {/* 푸터 */}
-      <footer className="bg-gray-900 text-gray-400 py-12 px-8">
-        <div className="mx-auto max-w-7xl">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-            <div>
-              <div className="flex items-center gap-2 mb-4">
-                <div className="rounded-lg bg-blue-600 p-1.5">
-                  <TrendingUp className="h-5 w-5 text-white" />
-                </div>
-                <span className="text-xl font-bold text-white">FinVest</span>
-              </div>
-              <p className="text-sm">
-                AI 기반 투자 시뮬레이터 &<br />
-                금융 학습 플랫폼
-              </p>
-            </div>
-
-            <div>
-              <h4 className="text-white font-semibold mb-4">학습</h4>
-              <ul className="space-y-2 text-sm">
-                <li><a href="#" className="hover:text-white transition-colors">투자 기초</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">기술적 분석</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">포트폴리오 관리</a></li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="text-white font-semibold mb-4">리소스</h4>
-              <ul className="space-y-2 text-sm">
-                <li><a href="#" className="hover:text-white transition-colors">가이드</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">FAQ</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">커뮤니티</a></li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="text-white font-semibold mb-4">회사</h4>
-              <ul className="space-y-2 text-sm">
-                <li><a href="#" className="hover:text-white transition-colors">소개</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">문의하기</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">개인정보처리방침</a></li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="border-t border-gray-800 pt-8 text-sm text-center">
-            © 2024 FinVest. All rights reserved.
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

@@ -23,12 +23,12 @@ export function Hero() {
           <p className="mx-auto mb-10 max-w-2xl text-gray-600">
             AI가 함께하는 금융 학습과 실전 같은 투자 시뮬레이터로
             <br />
-            안전하게 투자를 연습하고 배워보세요
+            안전하게 투자를 연습하고 배워 보세요
           </p>
           
           <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
             <button className="rounded-full bg-blue-600 px-8 py-4 text-white transition-all hover:bg-blue-700 hover:shadow-lg">
-              무료로 시작하기
+              시작하기
             </button>
             <button className="rounded-full border-2 border-gray-300 px-8 py-4 text-gray-700 transition-all hover:border-gray-400 hover:bg-gray-50">
               더 알아보기

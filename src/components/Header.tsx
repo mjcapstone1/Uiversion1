@@ -1,4 +1,4 @@
-import { Search, Bell, BookOpen, TrendingUp } from 'lucide-react';
+import { Search, BookOpen, TrendingUp } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 
 interface HeaderProps {
@@ -189,11 +189,6 @@ export function Header({
                 </div>
               )}
             </div>
-            
-            <button className="rounded-xl p-2.5 hover:bg-gray-100 relative transition-colors">
-              <Bell className="h-5 w-5 text-gray-600" />
-              <div className="absolute top-1 right-1 bg-red-500 rounded-full w-2 h-2"></div>
-            </button>
           </div>
         </div>
       </div>

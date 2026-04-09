@@ -9,7 +9,7 @@ export function ChallengePage({ onBack }: ChallengePageProps) {
     <div className="min-h-screen bg-[#1a1d24] px-6 py-6">
       <div className="mb-8">
         <h1 className="mb-2 text-4xl text-white">🎯 챌린지</h1>
-        <p className="text-lg text-gray-400">실전 투자 전략을 게임처럼 즐기며 배워보세요</p>
+        <p className="text-lg text-gray-400">실전 투자 전략을 게임처럼 즐기며 배워 보세요</p>
       </div>
 
       {/* 이번 주 핫한 챌린지 */}
