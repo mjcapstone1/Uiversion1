@@ -44,10 +44,10 @@ const learningCurriculum: Record<string, LessonStep[]> = {
 };
 
 const typeInfo: Record<string, { name: string; emoji: string; color: string; bgColor: string }> = {
-  stable: { name: '안정형', emoji: '🛡️', color: 'from-emerald-500 to-emerald-600', bgColor: 'bg-emerald-50' },
-  balanced: { name: '균형형', emoji: '⚖️', color: 'from-blue-500 to-blue-600', bgColor: 'bg-blue-50' },
-  aggressive: { name: '공격형', emoji: '🚀', color: 'from-purple-500 to-purple-600', bgColor: 'bg-purple-50' },
-  daytrader: { name: '단타형', emoji: '⚡', color: 'from-orange-500 to-orange-600', bgColor: 'bg-orange-50' },
+  stable: { name: '안정형', emoji: '🛡️', color: 'from-emerald-400 to-emerald-500', bgColor: 'bg-emerald-50' },
+  balanced: { name: '균형형', emoji: '⚖️', color: 'from-blue-400 to-blue-500', bgColor: 'bg-blue-50' },
+  aggressive: { name: '공격형', emoji: '🚀', color: 'from-purple-400 to-purple-500', bgColor: 'bg-purple-50' },
+  daytrader: { name: '단타형', emoji: '⚡', color: 'from-orange-400 to-orange-500', bgColor: 'bg-orange-50' },
 };
 
 export function LearningProgress({ investmentType, onStartLearning }: LearningProgressProps) {

@@ -10,7 +10,7 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: #030213;
+  --primary: #4e91ff;
   --primary-foreground: oklch(1 0 0);
   --secondary: oklch(0.96 0.0058 264.53);
   --secondary-foreground: #030213;
@@ -35,7 +35,7 @@
   --radius: 0.625rem;
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: #030213;
+  --sidebar-primary: #4e91ff;
   --sidebar-primary-foreground: oklch(0.985 0 0);
   --sidebar-accent: oklch(0.97 0 0);
   --sidebar-accent-foreground: oklch(0.205 0 0);
@@ -107,6 +107,19 @@
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
+
+  /* Lighter Blue Palette Overrides */
+  --color-blue-50: #f8faff;
+  --color-blue-100: #f0f7ff;
+  --color-blue-200: #e0effe;
+  --color-blue-300: #bae0fd;
+  --color-blue-400: #7cc2ff;
+  --color-blue-500: #4e91ff;
+  --color-blue-600: #3b82f6;
+  --color-blue-700: #2563eb;
+  --color-blue-800: #1d4ed8;
+  --color-blue-900: #1e3a8a;
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);

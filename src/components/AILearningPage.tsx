@@ -10,35 +10,26 @@ interface AILearningPageProps {
   onLessonSelect?: (lesson: { id: string; title: string }) => void;
 }
 
-export function AILearningPage({ forceShowInvestmentTypeModal, onInvestmentTypeModalClose, onNavigateToSimulator, preSelectedInvestmentType, onLessonSelect }: AILearningPageProps = {}) {
+export function AILearningPage({ forceShowInvestmentTypeModal, onInvestmentTypeModalClose, onNavigateToSimulator, preSelectedInvestmentType, onLessonSelect }: AILearningPageProps) {
   // 투자 성향 관련 상태
   const [showInvestmentTypeModal, setShowInvestmentTypeModal] = useState(false);
   const [selectedInvestmentType, setSelectedInvestmentType] = useState<string | null>(null);
   const [hasShownWelcomeModal, setHasShownWelcomeModal] = useState(false);
 
-  // 초기 로딩 시 투자 성향 모달 표시 (로컬 스토리지에 저장된 값이 없는 경우만)
+  // 초기 로딩 시 투자 성향 설정
   useEffect(() => {
-    // 설문조사에서 받은 투자 성향이 있으면 설정만 하고 모달은 한 번만 표시
+    const savedType = localStorage.getItem('investmentType');
+    
     if (preSelectedInvestmentType) {
       setSelectedInvestmentType(preSelectedInvestmentType);
-      const hasShown = sessionStorage.getItem('hasShownWelcomeModal');
-      if (!hasShown) {
-        sessionStorage.setItem('hasShownWelcomeModal', 'true');
-        setHasShownWelcomeModal(false); // 웰컴 모달 표시 안 함
-      }
-      return;
-    }
-
-    if (forceShowInvestmentTypeModal) {
-      setShowInvestmentTypeModal(true);
-      return;
-    }
-
-    const savedType = localStorage.getItem('investmentType');
-    if (!savedType || savedType === 'none') {
-      setShowInvestmentTypeModal(true);
-    } else {
+      setShowInvestmentTypeModal(false);
+    } else if (savedType && savedType !== 'none') {
       setSelectedInvestmentType(savedType);
+      setShowInvestmentTypeModal(false);
+    } else if (forceShowInvestmentTypeModal) {
+      setShowInvestmentTypeModal(true);
+    } else if (!savedType) {
+      setShowInvestmentTypeModal(true);
     }
   }, [forceShowInvestmentTypeModal, preSelectedInvestmentType]);
 
@@ -48,7 +39,7 @@ export function AILearningPage({ forceShowInvestmentTypeModal, onInvestmentTypeM
       <div className="bg-white border-b border-gray-200 shadow-sm">
         <div className="mx-auto max-w-7xl px-6 py-6">
           <div className="flex items-center gap-4">
-            <div className="rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 p-3 shadow-lg shadow-blue-500/30">
+            <div className="rounded-2xl bg-gradient-to-br from-blue-400 to-blue-500 p-3 shadow-lg shadow-blue-400/30">
               <GraduationCap className="h-8 w-8 text-white" />
             </div>
             <div>
@@ -62,29 +53,54 @@ export function AILearningPage({ forceShowInvestmentTypeModal, onInvestmentTypeM
       <div className="mx-auto max-w-7xl px-6 py-8">
         {/* 투자 성향이 선택된 경우 맞춤형 학습 진행도 표시 */}
         {selectedInvestmentType && selectedInvestmentType !== 'none' ? (
-          <LearningProgress 
-            investmentType={selectedInvestmentType}
-            onStartLearning={() => {
-              // 첫 번째 미완료 레슨 찾기
-              const completedLessons = JSON.parse(localStorage.getItem('completedLessons') || '[]');
-              const allLessons = [
-                { id: `${selectedInvestmentType}-1`, title: '1단계 학습' },
-                { id: `${selectedInvestmentType}-2`, title: '2단계 학습' },
-                { id: `${selectedInvestmentType}-3`, title: '3단계 학습' },
-                { id: `${selectedInvestmentType}-4`, title: '4단계 학습' },
-                { id: `${selectedInvestmentType}-5`, title: '5단계 학습' },
-              ];
-              const nextLesson = allLessons.find(lesson => !completedLessons.includes(lesson.id));
-              if (nextLesson && onLessonSelect) {
-                onLessonSelect(nextLesson);
-              }
-            }}
-          />
+          <div className="space-y-6">
+            <div className="flex items-center justify-between bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+              <div className="flex items-center gap-3">
+                <div className="text-sm font-medium text-gray-500">현재 분석된 투자 성향:</div>
+                <div className={`px-3 py-1 rounded-full text-sm font-bold shadow-sm ${
+                  selectedInvestmentType === 'stable' ? 'bg-emerald-100 text-emerald-700' :
+                  selectedInvestmentType === 'balanced' ? 'bg-blue-100 text-blue-700' :
+                  selectedInvestmentType === 'aggressive' ? 'bg-purple-100 text-purple-700' :
+                  'bg-orange-100 text-orange-700'
+                }`}>
+                  {selectedInvestmentType === 'stable' ? '🛡️ 안정형' :
+                   selectedInvestmentType === 'balanced' ? '⚖️ 균형형' :
+                   selectedInvestmentType === 'aggressive' ? '🚀 공격형' :
+                   '⚡ 단타형'}
+                </div>
+              </div>
+              <button 
+                onClick={() => setShowInvestmentTypeModal(true)}
+                className="text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors"
+              >
+                성향 다시 진단하기
+              </button>
+            </div>
+            
+            <LearningProgress 
+              investmentType={selectedInvestmentType}
+              onStartLearning={() => {
+                // 첫 번째 미완료 레슨 찾기
+                const completedLessons = JSON.parse(localStorage.getItem('completedLessons') || '[]');
+                const allLessons = [
+                  { id: `${selectedInvestmentType}-1`, title: '1단계 학습' },
+                  { id: `${selectedInvestmentType}-2`, title: '2단계 학습' },
+                  { id: `${selectedInvestmentType}-3`, title: '3단계 학습' },
+                  { id: `${selectedInvestmentType}-4`, title: '4단계 학습' },
+                  { id: `${selectedInvestmentType}-5`, title: '5단계 학습' },
+                ];
+                const nextLesson = allLessons.find(lesson => !completedLessons.includes(lesson.id));
+                if (nextLesson && onLessonSelect) {
+                  onLessonSelect(nextLesson);
+                }
+              }}
+            />
+          </div>
         ) : (
           /* 투자 유형이 선택되지 않은 경우 안내 메시지 */
           <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-16 text-center border-2 border-blue-200 shadow-lg">
             <div className="mb-8 flex justify-center">
-              <div className="h-24 w-24 rounded-full bg-blue-600 flex items-center justify-center shadow-xl">
+              <div className="h-24 w-24 rounded-full bg-blue-500 flex items-center justify-center shadow-xl">
                 <GraduationCap className="h-12 w-12 text-white" />
               </div>
             </div>
@@ -97,7 +113,7 @@ export function AILearningPage({ forceShowInvestmentTypeModal, onInvestmentTypeM
             </p>
             <button
               onClick={() => setShowInvestmentTypeModal(true)}
-              className="inline-flex items-center gap-3 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 px-10 py-5 text-lg font-bold text-white shadow-lg hover:shadow-xl transition-all hover:scale-105"
+              className="inline-flex items-center gap-3 rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 px-10 py-5 text-lg font-bold text-white shadow-lg hover:shadow-xl transition-all hover:scale-105"
             >
               <Target className="h-6 w-6" />
               투자 성향 선택하기
@@ -111,7 +127,7 @@ export function AILearningPage({ forceShowInvestmentTypeModal, onInvestmentTypeM
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
           <div className="w-full max-w-5xl bg-white rounded-2xl shadow-2xl p-8 max-h-[90vh] overflow-y-auto">
             <div className="mb-8 text-center">
-              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-purple-500 shadow-lg">
+              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-400 to-purple-400 shadow-lg">
                 <User className="h-8 w-8 text-white" />
               </div>
               <h2 className="mb-2 text-3xl font-bold text-gray-900">투자 성향 설정</h2>
@@ -160,19 +176,19 @@ export function AILearningPage({ forceShowInvestmentTypeModal, onInvestmentTypeM
                 onClick={() => setSelectedInvestmentType('balanced')}
                 className={`group rounded-2xl border-2 p-6 text-left transition-all hover:shadow-lg ${
                   selectedInvestmentType === 'balanced'
-                    ? 'border-blue-500 bg-blue-50 shadow-lg shadow-blue-500/20'
+                    ? 'border-blue-400 bg-blue-50 shadow-lg shadow-blue-400/20'
                     : 'border-gray-200 bg-white hover:border-blue-300'
                 }`}
               >
                 <div className="mb-4 flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="rounded-xl bg-blue-100 p-3">
-                      <BarChart3 className="h-6 w-6 text-blue-600" />
+                      <BarChart3 className="h-6 w-6 text-blue-500" />
                     </div>
                     <h3 className="text-xl font-bold text-gray-900">균형형</h3>
                   </div>
                   {selectedInvestmentType === 'balanced' && (
-                    <CheckCircle className="h-6 w-6 text-blue-500" />
+                    <CheckCircle className="h-6 w-6 text-blue-400" />
                   )}
                 </div>
                 <p className="mb-3 text-sm text-gray-600">적절한 위험과 수익의 균형을 추구합니다</p>
@@ -197,19 +213,19 @@ export function AILearningPage({ forceShowInvestmentTypeModal, onInvestmentTypeM
                 onClick={() => setSelectedInvestmentType('aggressive')}
                 className={`group rounded-2xl border-2 p-6 text-left transition-all hover:shadow-lg ${
                   selectedInvestmentType === 'aggressive'
-                    ? 'border-purple-500 bg-purple-50 shadow-lg shadow-purple-500/20'
+                    ? 'border-purple-400 bg-purple-50 shadow-lg shadow-purple-400/20'
                     : 'border-gray-200 bg-white hover:border-purple-300'
                 }`}
               >
                 <div className="mb-4 flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="rounded-xl bg-purple-100 p-3">
-                      <Target className="h-6 w-6 text-purple-600" />
+                      <Target className="h-6 w-6 text-purple-500" />
                     </div>
                     <h3 className="text-xl font-bold text-gray-900">공격형</h3>
                   </div>
                   {selectedInvestmentType === 'aggressive' && (
-                    <CheckCircle className="h-6 w-6 text-purple-500" />
+                    <CheckCircle className="h-6 w-6 text-purple-400" />
                   )}
                 </div>
                 <p className="mb-3 text-sm text-gray-600">높은 수익을 위해 적극적인 위험을 감수합니다</p>
@@ -234,19 +250,19 @@ export function AILearningPage({ forceShowInvestmentTypeModal, onInvestmentTypeM
                 onClick={() => setSelectedInvestmentType('daytrader')}
                 className={`group rounded-2xl border-2 p-6 text-left transition-all hover:shadow-lg ${
                   selectedInvestmentType === 'daytrader'
-                    ? 'border-orange-500 bg-orange-50 shadow-lg shadow-orange-500/20'
+                    ? 'border-orange-400 bg-orange-50 shadow-lg shadow-orange-400/20'
                     : 'border-gray-200 bg-white hover:border-orange-300'
                 }`}
               >
                 <div className="mb-4 flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="rounded-xl bg-orange-100 p-3">
-                      <Zap className="h-6 w-6 text-orange-600" />
+                      <Zap className="h-6 w-6 text-orange-500" />
                     </div>
                     <h3 className="text-xl font-bold text-gray-900">단타형</h3>
                   </div>
                   {selectedInvestmentType === 'daytrader' && (
-                    <CheckCircle className="h-6 w-6 text-orange-500" />
+                    <CheckCircle className="h-6 w-6 text-orange-400" />
                   )}
                 </div>
                 <p className="mb-3 text-sm text-gray-600">빠른 매매로 단기 수익을 추구합니다</p>
@@ -287,7 +303,7 @@ export function AILearningPage({ forceShowInvestmentTypeModal, onInvestmentTypeM
                   }
                 }}
                 disabled={!selectedInvestmentType}
-                className="flex-1 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-3 font-medium text-white hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 px-6 py-3 font-medium text-white hover:from-blue-600 hover:to-purple-600 transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 맞춤형 교육 시작하기
               </button>

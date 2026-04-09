@@ -165,7 +165,7 @@ export default function App() {
           currentPage={currentPage}
         />
         
-        {currentPage === 'home' ? (
+        {currentPage === 'home' && (
           <div className="px-8 py-8">
             <MarketIndices />
             <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -173,20 +173,18 @@ export default function App() {
               <ChartAndFeed onStockClick={handleStockClick} />
             </div>
           </div>
-        ) : currentPage === 'simulator' ? (
+        )}
+
+        {currentPage === 'simulator' && (
           <SimulatorPage stockName={selectedStockName} onNavigateToLearning={() => setCurrentPage('learning')} />
-        ) : (
+        )}
+
+        {currentPage === 'learning' && (
           <AILearningPage 
             forceShowInvestmentTypeModal={false}
             onInvestmentTypeModalClose={() => {}}
             onNavigateToSimulator={() => setCurrentPage('simulator')}
             preSelectedInvestmentType={detectedInvestmentType}
-            onLessonSelect={handleLessonSelect}
-          />
-        )}
-        
-        {currentPage === 'learning' && (
-          <LearningProgress 
             onLessonSelect={handleLessonSelect}
           />
         )}

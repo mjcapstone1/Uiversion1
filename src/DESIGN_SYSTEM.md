@@ -8,22 +8,22 @@
 
 ### Primary Colors (주요 색상)
 ```
-Blue 600 (Primary): #2563EB
+Blue 600 (Primary): #3B82F6 (Lighter)
   - 용도: 주요 버튼, 활성 탭, 링크
-  - RGB: 37, 99, 235
-  - 그림자: 0 10px 25px rgba(37, 99, 235, 0.3)
-
-Blue 500: #3B82F6
-  - 용도: 그라디언트, 아이콘
   - RGB: 59, 130, 246
+  - 그림자: 0 10px 25px rgba(59, 130, 246, 0.3)
 
-Blue 100: #DBEAFE
+Blue 500: #4E91FF
+  - 용도: 그라디언트, 아이콘
+  - RGB: 78, 145, 255
+
+Blue 100: #F0F7FF
   - 용도: 배지, 라벨 배경
-  - RGB: 219, 234, 254
+  - RGB: 240, 247, 255
 
-Blue 50: #EFF6FF
+Blue 50: #F8FAFF
   - 용도: 호버 배경, 하이라이트
-  - RGB: 239, 246, 255
+  - RGB: 248, 250, 255
 ```
 
 ### Success Colors (성공/상승)
