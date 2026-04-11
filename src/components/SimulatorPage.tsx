@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Star, TrendingUp, TrendingDown, Search, Bookmark, ShoppingCart, Clock, PieChart, Plus } from 'lucide-react';
 import { StockDetailPage } from './StockDetailPage';
+import { getTopVolumeStocks, getTopGainers, getAllStocks } from '../api/stockApi';
 
 interface Stock {
   id: string;
@@ -54,7 +55,7 @@ interface SimulatorPageProps {
 
 export function SimulatorPage({ stockName, onNavigateToLearning }: SimulatorPageProps) {
   const [searchQuery, setSearchQuery] = useState('');
-  const [stocks, setStocks] = useState<Stock[]>(mockStocks);
+  const [stocks, setStocks] = useState<Stock[]>([]);
   const [selectedStock, setSelectedStock] = useState<Stock | null>(null);
   const [favorites, setFavorites] = useState<Set<string>>(new Set(['1', '3', '5']));
   const [activeTab, setActiveTab] = useState<'favorites' | 'holdings' | 'scheduled' | 'portfolio'>('favorites');
@@ -110,6 +111,31 @@ export function SimulatorPage({ stockName, onNavigateToLearning }: SimulatorPage
       createdAt: '2024-04-06 10:15',
     },
   ]);
+
+  useEffect(() => {
+  const fetchStocks = async () => {
+    try {
+      const data = await getAllStocks();
+
+      const mapped = data.map((item: any, index: number) => ({
+        id: String(index + 1),
+        name: item.name,
+        code: item.code,
+        volume: Number(item.volume || 0),
+        price: Number(item.price || 0),
+        changeRate: Number(item.rate || 0),
+        type: 'domestic',
+      }));
+
+      setStocks(mapped);
+
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  fetchStocks();
+}, []);
 
   // 실시간 가격 업데이트
   useEffect(() => {
