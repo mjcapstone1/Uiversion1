@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import SwitchBar, { NEWS_TABS, type NewsTabType } from "./SwitchBar";
-import { fn } from "@storybook/test";
 import { useState } from "react";
 
 const meta = {
